@@ -1,8 +1,9 @@
-var mysql = require("mysql");
 var inquirer = require("inquirer");
+var mysql = require("mysql");
+
 // create the connection information for the sql database
 var connection = mysql.createConnection({
-    host: "localserver",
+    host: "localhost",
 
 
     port: 3306,
@@ -11,7 +12,7 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "",
+    password: "root",
     database: "bamazon"
 });
 
@@ -29,14 +30,12 @@ function start() {
             type: "input",
             name: "item_id",
             message: "Please enter the Item ID which you would like to purchase.",
-            validate: validateInput,
             filter: Number
-        },
+            },
         {
             type: "input",
             name: "quantity",
             message: "How many do you need?",
-            validate: validateInput,
             filter: Number
         }
     ]).then(function (input) {
