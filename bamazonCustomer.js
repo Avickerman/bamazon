@@ -16,28 +16,61 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
-connection.connect(function (err) {
-    if (err) throw err;
-    // run the start function after the connection is made to prompt the user
-    start();
-});
+// connection.connect(function (err) {
+//     if (err) throw err;
+//     // run the start function after the connection is made to prompt the user
+//     start();
+// });
 
 
-function start() {
+function promptCustomerAction() {
     // Prompt the user to select an item
     inquirer.prompt([
         {
+            type: "list",
+            name: "option",
+            message: "Select an option:",
+            choices: ["View Products for Sale", "Make a Purchase"],
+            filter: function (val) {
+                if (val === "View Products for Sale") {
+                    return "sale";
+                } else if (val === "Make a Purchase") {
+                    return "purchase";
+                } else {
+
+                    console.log("ERROR: Unsupported operation!");
+                    exit(1);
+                }
+            }
+        }
+    ]).then(function (input) {
+
+        if (input.option === "sale") {
+            displayInventory();
+        } else if (input.option === "purchase") {
+            promptUserPurchase();
+        } else {
+
+            console.log("ERROR: Unsupported operation!");
+            exit(1);
+        }
+    })
+}
+function promptCustomerPurchase() {
+    inquirer.prompt([
+            {
             type: "input",
             name: "item_id",
             message: "Please enter the Item ID which you would like to purchase.",
             filter: Number
-            },
+        },
         {
             type: "input",
             name: "quantity",
             message: "How many do you need?",
             filter: Number
         }
+        
     ]).then(function (input) {
 
 
@@ -80,6 +113,7 @@ function start() {
             }
         })
     })
+    
 }
 
 function displayInventory() {
@@ -112,8 +146,9 @@ function displayInventory() {
 
 function runbamazon() {
 
-    displayInventory();
+    promptCustomerAction();
 }
+// promptCustomerPurchase();
 
 runbamazon();
 
