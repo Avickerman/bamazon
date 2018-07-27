@@ -56,7 +56,7 @@ function promptCustomerAction() {
         }
     })
 }
-function promptCustomerPurchase() {
+function promptUserPurchase() {
     inquirer.prompt([
             {
             type: "input",
@@ -148,7 +148,7 @@ function runbamazon() {
 
     promptCustomerAction();
 }
-// promptCustomerPurchase();
+
 
 runbamazon();
 
